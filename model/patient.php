@@ -52,6 +52,8 @@ class patient
     public function insert($nom, $prenom, $rue, $cp, $ville, $tel, $login, $mdp) {
 		$sql = "INSERT INTO patient (idPatient, nomPatient, prenomPatient, ruePatient, cpPatient, villePatient, telPatient, loginPatient, mdpPatient) 
         VALUES (:nom, :prenom, :rue, :cp, :ville, :tel, :login, :mdp)";
+
+        $mdp = password_hash($mdp, PASSWORD_BCRYPT);
 		
 		$req = $this->pdo->prepare($sql);
 		$req->bindParam(':nom', $nom, PDO::PARAM_STR);

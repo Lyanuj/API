@@ -26,41 +26,61 @@ if(isset($_GET["action"])) {
 		case "patient":
 			switch($_SERVER["REQUEST_METHOD"]) {
 				case "GET":
-					(new controleur)->getPatients();
+					(new controller)->getPatients();
 					break;
 				case "POST":
-					(new controleur)->ajouterPatient();
+					(new controller)->ajouterPatient();
 					break;
 				case "PUT":
-					(new controleur)->modifierPatient();
+					(new controller)->modifierPatient();
 					break;
 				case "DELETE":
-					(new controleur)->supprimerPatient();
+					(new controller)->supprimerPatient();
 					break;
 				default:
-					(new controleur)->erreur404();
+					(new controller)->erreur404();
 					break;
 			}
 			break;
 
-		case "fabriquant":
+		case "rdv":
 			switch($_SERVER["REQUEST_METHOD"]) {
 				case "GET":
-					(new controleur)->getFabriquants();
+					(new controller)->getRdvs();
+					break;
+				case "POST":
+					(new controller)->ajouterRdv();
+					break;
+				case "PUT":
+					(new controller)->modifierRdv();
+					break;
+				case "DELETE":
+					(new controller)->supprimerRdv();
 					break;
 				default:
-					(new controleur)->erreur404();
+					(new controller)->erreur404();
 					break;
 			}
 			break;
 		
+		case "authentification":
+			switch ($_SERVER["REQUEST_METHOD"]) {
+				case 'GET':
+					(new controller)->connexion();
+					break;
+				
+				default:
+					(new controller)->erreur404();
+					break;
+			}
+		
 		// Route par défaut : erreur 404
 		default:
-			(new controleur)->erreur404();
+			(new controller)->erreur404();
 			break;
 	}
 }
 else {
 	// Pas d'action précisée = erreur 404
-	(new controleur)->erreur404();
+	(new controller)->erreur404();
 }

@@ -86,6 +86,13 @@ class rdv {
         return true;
     }
     
+    public function delete($id) {
+		$sql = "DELETE FROM rdv WHERE idRdv = :id";
+		
+		$req = $this->pdo->prepare($sql);
+		$req->bindParam(':id', $id, PDO::PARAM_INT);
+		return $req->execute();
+	}
     
 }
 
