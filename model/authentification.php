@@ -35,14 +35,12 @@ class authentification {
         if ($idPatient != $id) {
             return false;
         }
-    
-        if ($_SERVER['REMOTE_ADDR'] != $ip) {
-            var_dump($_SERVER['REMOTE_ADDR'])
+
+        if(verifIP($ip) != true){
             return false;
         }
     
         return true;
-        }
         
     }
 
@@ -50,8 +48,15 @@ class authentification {
         
     }
 
-    public function verifIP(){
+    public function verifIP($ip){
 
+        if ($_SERVER['REMOTE_ADDR'] != $ip) {
+            var_dump($_SERVER['REMOTE_ADDR'])
+            return false;
+        }
+        else {
+            return true;
+        }
     }
 }
 

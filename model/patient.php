@@ -23,7 +23,7 @@ class patient
         return $req->fetchAll(\PDO::FETCH_ASSOC);
     }
 
-    public function get($id){
+    public function getPatient($id){
         $sql = "SELECT * FROM patient where idPatient = :id";
 
         $req = $this->pdo->prepare($sql);

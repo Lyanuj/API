@@ -65,7 +65,7 @@ if(isset($_GET["action"])) {
 		
 		case "authentification":
 			switch ($_SERVER["REQUEST_METHOD"]) {
-				case 'GET':
+				case 'PUT':
 					(new controller)->connexion();
 					break;
 				
