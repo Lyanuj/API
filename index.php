@@ -26,19 +26,16 @@ if(isset($_GET["action"])) {
 		case "patient":
 			switch($_SERVER["REQUEST_METHOD"]) {
 				case "GET":
-					(new controleur)->getMachines();
+					(new controleur)->getPatients();
 					break;
 				case "POST":
-					(new controleur)->ajouterMachine();
+					(new controleur)->ajouterPatient();
 					break;
 				case "PUT":
-					(new controleur)->modifierMachine();
-					break;
-				case "PATCH":
-					(new controleur)->miseEnServiceMachine();
+					(new controleur)->modifierPatient();
 					break;
 				case "DELETE":
-					(new controleur)->supprimerMachine();
+					(new controleur)->supprimerPatient();
 					break;
 				default:
 					(new controleur)->erreur404();
