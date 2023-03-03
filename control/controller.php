@@ -247,42 +247,42 @@ class controleur {
         }
         
 
-        public function modifierRdv() {
-                $donnees = json_decode(file_get_contents("php://input"));
-                $renvoi = null;
-                if($donnees === null) {
-                    http_response_code(400);
-                    $renvoi = array("message" => "JSON envoyé incorrect");
-                }
-                else {
-                    $attributsRequis = array("id", "date", "heure", "patient_id", "medecin_id");
-                    
-                    if($this->verifierAttributsJson($donnees, $attributsRequis)) {
-                        if((new rdv)->exists($donnees->id)) {
-                            $resultat = (new rdv)->update($donnees->id, $donnees->date, $donnees->heure, $donnees->patient_id, $donnees->medecin_id);
-        
-                            if($resultat != false) {
-                                http_response_code(200);
-                                $renvoi = array("message" => "Modification effectuée avec succès");
-                            }
-                            else {
-                                http_response_code(500);
-                                $renvoi = array("message" => "Une erreur interne est survenue");
-                            }
+        public function supprimerRdv() {
+            $donnees = json_decode(file_get_contents("php://input"));
+            $renvoi = null;
+            
+            if ($donnees === null) {
+                http_response_code(400);
+                $renvoi = array("message" => "JSON envoyé incorrect");
+            } else {
+                $attributsRequis = array("id");
+                
+                if ($this->verifierAttributsJson($donnees, $attributsRequis)) {
+                    if ((new RendezVous)->exists($donnees->id)) {
+                        $resultat = (new RendezVous)->delete($donnees->id);
+            
+                        if ($resultat != false) {
+                            http_response_code(200);
+                            $renvoi = array("message" => "Suppression effectuée avec succès");
+                        } else {
+                            http_response_code(500);
+                            $renvoi = array("message" => "Une erreur interne est survenue");
                         }
-                        else {
-                            http_response_code(400);
-                            $renvoi = array("message" => "Le RDV spécifié n'existe pas");
-                        }
-                    } 
-                    else {
+                    } else {
                         http_response_code(400);
-                        $renvoi = array("message" => "Données manquantes");
+                        $renvoi = array(
+                            "message" => "Le rendez-vous spécifié n'existe pas"
+                        );
                     }
+                } else {
+                    http_response_code(400);
+                    $renvoi = array("message" => "Données manquantes");
                 }
-        
-                (new vue)->transformerJson($renvoi);
             }
+        
+            (new vue)->transformerJson($renvoi);
+        }
+        
         
     
     
