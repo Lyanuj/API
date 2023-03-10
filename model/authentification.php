@@ -51,7 +51,6 @@ class authentification {
     public function verifIP($ip){
 
         if ($_SERVER['REMOTE_ADDR'] != $ip) {
-            var_dump($_SERVER['REMOTE_ADDR'])
             return false;
         }
         else {
