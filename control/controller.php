@@ -294,7 +294,7 @@ class controleur {
             $attributsRequis = array("id", "idPatient", "ip", "login", "mdp");
             if($this->verifierAttributsJson($donnees, $attributsRequis)){
                 if ((new patient)->exists($donnees->idPatient)) {
-                    $resultat = (new authentification)->connexion($donnees->idPatient, $donnees->ip, $donnees->login, $donnees->mdp) 
+                    $resultat = (new authentification)->connexion($donnees->idPatient, $donnees->ip, $donnees->login, $donnees->mdp);
 
                     if ($resultat != false) {
                         http_response_code(200);
@@ -306,7 +306,7 @@ class controleur {
                 } else {
                     http_response_code(400);
                         $renvoi = array(
-                            "message" => "Mauvais nom d'utilisateur ou mot de passe";
+                            "message" => "Mauvais nom d'utilisateur ou mot de passe"
                         );
                 }       
             } else {

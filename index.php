@@ -14,7 +14,7 @@ try {
 }
 
 // Chargement des fichiers MVC
-require("control/controleur.php");
+require("control/controller.php");
 require("view/vue.php");
 require("model/authentification.php");
 require("model/patient.php");
