@@ -14,7 +14,7 @@ class authentification {
 		}
 	}
 
-    public function connexion($id, $ip, $login, $mdp){
+    public function connexion($login, $mdp){
 
         $sql = "SELECT mdpPatient FROM patient WHERE loginPatient = :login";
 
@@ -25,18 +25,20 @@ class authentification {
         $result = $req->fetch();
         $hash = $result[0];
 
+        $token = bin2hex(random_bytes(32));
+        $ip = $_SERVER['REMOTE_ADDR'];
+
+        $sql2 = "INSERT INTO authentification VALUES (:letoken,(SELECT idPatient FROM patient WHERE loginPatient = :login), :Ip)";
+
+        $req2 = $this->pdo->prepare($sql2);
+        $req2->bindParam(':letoken', $token, PDO::PARAM_STR);
+        $req2->bindParam(':Ip', $ip, PDO::PARAM_STR);
+        $req2->bindParam('login', $login, PDO::PARAM_STR);
+        $req2->execute();
+
         $correctPassword = password_verify($mdp, $hash);
 
         if (!$correctPassword) {
-            return false;
-        }
-    
-        $idPatient = $resultat['idPatient'];
-        if ($idPatient != $id) {
-            return false;
-        }
-
-        if(verifIP($ip) != true){
             return false;
         }
     

@@ -1,5 +1,5 @@
 <?php
-class controleur {
+class controller {
 
     public function erreur404() {
 		http_response_code(404);
@@ -26,7 +26,7 @@ class controleur {
 			}
 			else {
 				http_response_code(404);
-				$donnees = array("message" => "Machine introuvable");
+				$donnees = array("message" => "Patient introuvable");
 			}
 		}
 		else {
@@ -57,7 +57,8 @@ class controleur {
                     }
                     else {
                         http_response_code(500);
-                        $renvoi = array("message" => "Une erreur interne est survenue");
+                        $renvoi = array("message" => "Une erreur interne est survenue",
+                    "dump" => "".var_dump($resultat)."");
                     }
                 }
                 else {
@@ -181,8 +182,8 @@ class controleur {
         else {
             $attributsRequis = array("dateHeureRdv", "idPatient", "idMedecin");
             if($this->verifierAttributsJson($donnees, $attributsRequis)) {
-                if(!empty($donnees->dateRdv) && !empty($donnees->idPatient) && !empty($donnees->idMedecin)){
-                    $resultat = (new rdv)->setRdv($donnees->dateRdv, $donnees->idPatient, $donnees->idMedecin);
+                if(!empty($donnees->dateHeureRdv) && !empty($donnees->idPatient) && !empty($donnees->idMedecin)){
+                    $resultat = (new rdv)->setRdv($donnees->dateHeureRdv, $donnees->idPatient, $donnees->idMedecin);
     
                     if($resultat !== false) {
                         http_response_code(201);
@@ -217,11 +218,11 @@ class controleur {
             $renvoi = array("message" => "JSON envoyé incorrect");
         }
         else {
-            $attributsRequis = array("id", "date", "heure", "patient_id", "medecin_id");
+            $attributsRequis = array("id", "dateHeureRdv", "idPatient", "idMedecin");
     
             if($this->verifierAttributsJson($donnees, $attributsRequis)) {
-                if((new rendezVous)->exists($donnees->id)) {
-                    $resultat = (new rendezVous)->update($donnees->id, $donnees->date, $donnees->heure, $donnees->patient_id, $donnees->medecin_id);
+                if((new rdv)->exists($donnees->id)) {
+                    $resultat = (new rdv)->modifierRdv($donnees->id, $donnees->dateHeureRdv, $donnees->idPatient, $donnees->idMedecin);
     
                     if($resultat != false) {
                         http_response_code(200);
@@ -291,10 +292,10 @@ class controleur {
             http_response_code(400);
             $renvoi = array("message" => "JSON envoyé incorrect");
         } else {
-            $attributsRequis = array("id", "idPatient", "ip", "login", "mdp");
+            $attributsRequis = array("idPatient", "login", "mdp");
             if($this->verifierAttributsJson($donnees, $attributsRequis)){
                 if ((new patient)->exists($donnees->idPatient)) {
-                    $resultat = (new authentification)->connexion($donnees->idPatient, $donnees->ip, $donnees->login, $donnees->mdp);
+                    $resultat = (new authentification)->connexion($donnees->login, $donnees->mdp);
 
                     if ($resultat != false) {
                         http_response_code(200);

@@ -50,8 +50,7 @@ class patient
     }
 
     public function insert($nom, $prenom, $rue, $cp, $ville, $tel, $login, $mdp) {
-		$sql = "INSERT INTO patient (idPatient, nomPatient, prenomPatient, ruePatient, cpPatient, villePatient, telPatient, loginPatient, mdpPatient) 
-        VALUES (:nom, :prenom, :rue, :cp, :ville, :tel, :login, :mdp)";
+		$sql = "INSERT INTO patient (nomPatient, prenomPatient, ruePatient, cpPatient, villePatient, telPatient, loginPatient, mdpPatient) VALUES (:nom, :prenom, :rue, :cp, :ville, :tel, :login, :mdp)";
 
         $mdp = password_hash($mdp, PASSWORD_BCRYPT);
 		
@@ -66,14 +65,14 @@ class patient
         $req->bindParam(':mdp', $mdp, PDO::PARAM_STR);
 
 		$result = $req->execute();
-
+        
 		if($result === true) {
 			return $this->pdo->lastInsertId();
 		}
 		else {
 			return false;
 		}
-	}
+    }
 
     public function update($id, $nom, $prenom, $rue, $cp, $ville, $tel, $login, $mdp) {
 		$sql = "UPDATE patient SET nomPatient = :nom, prenomPatient = :prenom, ruePatient = :rue, cpPatient = :cp, villePatient = :ville, telPatient = :tel, loginPatient = :login, mdpPatient = :mdp WHERE idPatient = :id";
