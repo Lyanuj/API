@@ -293,7 +293,8 @@ class controller {
             $renvoi = array("message" => "JSON envoyé incorrect");
         } else {
             $attributsRequis = array("idPatient", "login", "mdp");
-            if($this->verifierAttributsJson($donnees, $attributsRequis)){
+
+            if($this->verifierAttributsJson($donnees, $attributsRequis)) {
                 if ((new patient)->exists($donnees->idPatient)) {
                     $resultat = (new authentification)->connexion($donnees->login, $donnees->mdp);
 

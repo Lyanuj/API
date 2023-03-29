@@ -47,7 +47,16 @@ class authentification {
     }
 
     public function getIdPatient(){
-        
+        $sql = "SELECT idPatient FROM authentification where ipAppareil = :ip";
+
+        $req = $this->pdo->prepare($sql);
+        $req->bindParam(':ip', $_SERVER['REMOTE_ADDR'], PDO::PARAM_STR);
+        $req->execute();
+
+        $result = $req->fetch();
+        $id = $result[0];
+
+        return $id;
     }
 
     public function verifIP($ip){
