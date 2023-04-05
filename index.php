@@ -73,6 +73,7 @@ if(isset($_GET["action"])) {
 					(new controller)->erreur404();
 					break;
 			}
+			break;
 		
 		// Route par défaut : erreur 404
 		default:
